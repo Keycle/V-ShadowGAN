@@ -83,7 +83,7 @@ criterion_identity = torch.nn.L1Loss()
 # Optimizers & LR schedulers
 optimizer_G = torch.optim.Adam(itertools.chain(netG_A2B.parameters(), netG_B2A.parameters()),
 							   lr=opt.lr, betas=(0.5, 0.999))
-optimizer_D_A = torch.optim.Adam(netD_A.parameters(), lr=opt.lr, betas=(0.5, 0.999))  # betas是adam的参数，默认(0.9,0.999)
+optimizer_D_A = torch.optim.Adam(netD_A.parameters(), lr=opt.lr, betas=(0.5, 0.999))
 optimizer_D_B = torch.optim.Adam(netD_B.parameters(), lr=opt.lr, betas=(0.5, 0.999))
 optimizer_D_Shadow = torch.optim.Adam(netD_Shadow.parameters(), lr=opt.lr, betas=(0.5, 0.999))
 
@@ -174,9 +174,9 @@ for epoch in range(opt.epoch, opt.n_epochs):
 		# GAN loss
 		# Shadow2Free
 		fake_B = netG_A2B(real_A)
-		pred_fake = netD_B(fake_B)  # 判别生成的假图片的得分
+		pred_fake = netD_B(fake_B)
 		loss_GAN_A2B = criterion_GAN(pred_fake, target_real)  # log(Db(Gb(a)))
-		mask_queue.insert(mask_generator(real_A, fake_B))  # 阴影生成后放入阴影队列中
+		mask_queue.insert(mask_generator(real_A, fake_B))
 		# Free2Shadow
 		fake_A = netG_B2A(real_B)
 		pred_fake = netD_A(fake_A)
