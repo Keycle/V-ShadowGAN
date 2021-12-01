@@ -29,25 +29,25 @@ class Dataprocess(data.Dataset):
     def preprocess(self):
         """Preprocess shadow attribute file."""
         # 打开标签txt文件
-        lines = [line.rstrip() for line in open(self.attr_path, 'r')]  # rstrip删除字符串末尾字符，默认空格；open('r') 只读模式
-        all_attr_names = lines[0].split()  # all_attr_names表示left、mid、right shadow类别集合
-        # for i, attr_name in enumerate(all_attr_names):  # 将属性名称和对应索引分别存入两个列表中
+        lines = [line.rstrip() for line in open(self.attr_path, 'r')]
+        all_attr_names = lines[0].split()
+        # for i, attr_name in enumerate(all_attr_names):
         #     self.attr2idx[attr_name] = i
         #     self.idx2attr[i] = attr_name
 
-        lines = lines[1:]  # 每行为图片名称及其对应标签
+        lines = lines[1:]
         random.seed(1234)
-        random.shuffle(lines)  # 每一行为一张图片，打乱图片顺序
+        random.shuffle(lines)
         for i, line in enumerate(lines):
             split = line.split()
-            filename = split[0]  # 图片名
-            values = split[1:]  # 图片对应的属性标签
+            filename = split[0]
+            values = split[1:]
 
-            # for attr_name in self.selected_attrs:  # 创建训练选用的属性和索引的一一对应关系
+            # for attr_name in self.selected_attrs:
             #     idx = self.attr2idx[attr_name]
-            #     label.append(values[idx] == '1')  # 将训练选用的属性标签置为1
+            #     label.append(values[idx] == '1')
 
-            if (i + 1) < 20:  # 此时的i为总图片数量，取其中20张做测试集数据，其余都为训练集数据
+            if (i + 1) < 20:
                 self.test_dataset.append([filename, values])
             else:
                 self.train_dataset.append([filename, values])
